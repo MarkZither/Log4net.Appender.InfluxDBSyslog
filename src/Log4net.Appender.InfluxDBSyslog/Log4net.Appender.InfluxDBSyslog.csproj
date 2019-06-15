@@ -9,8 +9,9 @@
     <Copyright>Copyright © 2019 Mark Burton</Copyright>
     <PackageProjectUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Version>0.1.0-alpha10</Version>
+    <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
   </PropertyGroup>
 
   <ItemGroup>

@@ -16,9 +16,9 @@ install:
   - choco install gitversion.portable -pre -y
 before_build:
 - ps: >-
-    dotnet restore ".\src\AutoMoq.sln"
+    dotnet restore ".\Log4net.Appender.InfluxDBSyslog.sln"
 
-    nuget restore ".\src\AutoMoq.sln"
+    nuget restore ".\Log4net.Appender.InfluxDBSyslog.sln"
 
     choco install "sonarscanner-msbuild-net46" -y
 

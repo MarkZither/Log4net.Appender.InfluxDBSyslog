@@ -36,6 +36,7 @@ after_build:
 - cmd: ECHO nuget pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
 - cmd: nuget pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
 - cmd: appveyor PushArtifact "Log4net.Appender.InfluxDBSyslog.%GitVersion_NuGetVersion%.nupkg"
+- cmd: nuget push "Log4net.Appender.InfluxDBSyslog.%GitVersion_NuGetVersion%.nupkg" -Source https://api.nuget.org/v3/index.json -apikey oy2bn3atl5ntmtrwa4kqxgm242ffozmulk4wg7qvm2odv4
 notifications:
 - provider: Email
   to:

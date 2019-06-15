@@ -10,6 +10,9 @@
     <description>$description$</description>
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2019</copyright>
-    <tags>Tag1 Tag2</tags>
+    <tags>Log4net InfluxDB syslog</tags>
+    <dependencies>
+      <dependency id="Log4net" version="2.0.*" />
+    </dependencies>
   </metadata>
 </package>

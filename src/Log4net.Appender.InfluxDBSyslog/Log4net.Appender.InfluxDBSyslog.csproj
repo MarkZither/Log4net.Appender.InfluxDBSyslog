@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Mark Burton</Authors>
     <Company>Zither IT</Company>
+    <Description>Log4net appender that posts events to InfluxDB in Syslog format</Description>
+    <Copyright>Copyright © 2019 Mark Burton</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

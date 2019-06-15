@@ -8,7 +8,6 @@ environment:
   PROJECTTOKEN:
     secure: 7AolUkwXviuDD/C9rN7tEQmo5FhiGR2mo/j0Xi8pSeAJO9xCv1cR/CQvCQ7mZbnB
 nuget:
-  account_feed: true
   project_feed: true
   disable_publish_on_pr: true
   disable_publish_octopus: true

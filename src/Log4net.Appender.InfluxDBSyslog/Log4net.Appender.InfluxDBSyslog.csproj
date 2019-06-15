@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Mark Burton</Authors>
+    <Company>Zither IT</Company>
   </PropertyGroup>
 
   <ItemGroup>

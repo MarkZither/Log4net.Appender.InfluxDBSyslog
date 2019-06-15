@@ -13,11 +13,17 @@ nuget:
   disable_publish_octopus: true
 install:
   - choco install gitversion.portable -pre -y
+
+assembly_info:
+  patch: false
+
 before_build:
 - ps: >-
     dotnet restore ".\Log4net.Appender.InfluxDBSyslog.sln"
 
     nuget restore ".\Log4net.Appender.InfluxDBSyslog.sln"
+
+    gitversion /l console /output buildserver /updateAssemblyInfo
 
     choco install "sonarscanner-msbuild-net46" -y
 

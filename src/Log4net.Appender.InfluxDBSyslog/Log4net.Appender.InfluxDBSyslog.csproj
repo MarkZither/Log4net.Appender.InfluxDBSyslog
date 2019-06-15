@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0-alpha10</Version>
   </PropertyGroup>
 
   <ItemGroup>

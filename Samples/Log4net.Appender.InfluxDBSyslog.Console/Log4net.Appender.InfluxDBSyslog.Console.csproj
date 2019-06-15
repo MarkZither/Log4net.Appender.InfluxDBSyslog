@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Log4net.Appender.InfluxDBSyslog" Version="1.0.0" />
+    <PackageReference Include="Log4net.Appender.InfluxDBSyslog" Version="0.1.0-alpha10" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,41 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+environment:
+  PROJECTNAME:
+    secure: TXn+4FwXgqnWzXjW1NkU6LTyaJk2GfhNM2kvKzq0Oe8=
+  ORGNAME:
+    secure: JwKHzxmM+/3pEixMh4+ahdBP/WfaXu8ACXJc6jvs5Eo=
+  PROJECTTOKEN:
+    secure: 7AolUkwXviuDD/C9rN7tEQmo5FhiGR2mo/j0Xi8pSeAJO9xCv1cR/CQvCQ7mZbnB
+nuget:
+  account_feed: true
+  project_feed: true
+  disable_publish_on_pr: true
+  disable_publish_octopus: true
+install:
+  - choco install gitversion.portable -pre -y
+before_build:
+- ps: >-
+    dotnet restore ".\src\AutoMoq.sln"
+
+    nuget restore ".\src\AutoMoq.sln"
+
+    choco install "sonarscanner-msbuild-net46" -y
+
+    SonarScanner.MSBuild.exe begin /k:"$env:PROJECTNAME" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.login=$env:PROJECTTOKEN" /o:"$env:ORGNAME"
+build:
+  project: src/AutoMoq.sln
+  verbosity: minimal
+after_build:
+- ps: SonarScanner.MSBuild.exe end /d:"sonar.login=$env:PROJECTTOKEN"
+- cmd: ECHO nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+- cmd: nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
+- cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
+notifications:
+- provider: Email
+  to:
+  - mburton@dennemeyer.com
+  - mark.burton@zither-it.co.uk
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false

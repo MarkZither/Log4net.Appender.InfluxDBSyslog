@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Log4net.Appender.InfluxDBSyslog", "src\Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj", "{FFAC394B-DD5C-4220-B780-0DB02CBEF935}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Log4net.Appender.InfluxDBSyslog.Tests", "Test\Log4net.Appender.InfluxDBSyslog.Tests\Log4net.Appender.InfluxDBSyslog.Tests.csproj", "{9D0AB22A-83B3-4513-8A86-B3C270905FDC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Log4net.Appender.InfluxDBSyslog.Console", "Samples\Log4net.Appender.InfluxDBSyslog.Console\Log4net.Appender.InfluxDBSyslog.Console.csproj", "{49B6AB83-E106-4493-86DF-A59B5E77FAB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E7842E0F-61B6-4C17-A9F0-8C5FAF036A0D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		directory.build.targets = directory.build.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFAC394B-DD5C-4220-B780-0DB02CBEF935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFAC394B-DD5C-4220-B780-0DB02CBEF935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFAC394B-DD5C-4220-B780-0DB02CBEF935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFAC394B-DD5C-4220-B780-0DB02CBEF935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0AB22A-83B3-4513-8A86-B3C270905FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0AB22A-83B3-4513-8A86-B3C270905FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0AB22A-83B3-4513-8A86-B3C270905FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0AB22A-83B3-4513-8A86-B3C270905FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B6AB83-E106-4493-86DF-A59B5E77FAB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B6AB83-E106-4493-86DF-A59B5E77FAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B6AB83-E106-4493-86DF-A59B5E77FAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B6AB83-E106-4493-86DF-A59B5E77FAB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1D015C3-EABF-4C01-8BC1-EC22AB216F1E}
+	EndGlobalSection
+EndGlobal

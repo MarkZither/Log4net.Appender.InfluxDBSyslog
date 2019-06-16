@@ -55,7 +55,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         public string AppName { get; set; }
         
 
-        private HttpClient HttpClient;
+        private readonly HttpClient HttpClient;
         public InfluxAppender()
         {
             HttpClient = new HttpClient();
@@ -67,7 +67,6 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         protected override async void Append(LoggingEvent loggingEvent)
         {
-            //var renderedMessage = RenderLoggingEvent(loggingEvent);
             SyslogSeverity severity = GetSyslogSeverity(loggingEvent.Level);
 
             InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
@@ -162,7 +161,7 @@ namespace Log4net.Appender.InfluxDBSyslog
 
             if (this.Host == null)
             {
-                throw new ArgumentNullException("RemoteAddress");
+                throw new ArgumentNullException(this.Host);
             }
 
             if (this.RemotePort < IPEndPoint.MinPort || this.RemotePort > IPEndPoint.MaxPort)

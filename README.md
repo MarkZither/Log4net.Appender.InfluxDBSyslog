@@ -3,8 +3,8 @@ Log4net appender that posts events to InfluxDB in Syslog format
 
 | Branch   | Status         |
 | -------- | -------------- | 
-|Master Branch|[![Build status](https://ci.appveyor.com/api/projects/status/dvouxggnqka0ptso/branch/master?svg=true)](https://ci.appveyor.com/project/MarkZither/Log4net.Appender.InfluxDBSyslog/branch/master)|
-|Dev Branch|[![Build status](https://ci.appveyor.com/api/projects/status/dvouxggnqka0ptso/branch/dev?svg=true)](https://ci.appveyor.com/project/MarkZither/Log4net.Appender.InfluxDBSyslog/branch/dev)|
+|Master Branch|[![Build status](https://ci.appveyor.com/api/projects/status/fh0wk0ov2f86u1lw/branch/master?svg=true)](https://ci.appveyor.com/project/MarkZither/log4net-appender-influxdbsyslog/branch/master)|
+|Dev Branch|[![Build status](https://ci.appveyor.com/api/projects/status/fh0wk0ov2f86u1lw/branch/master?svg=true)](https://ci.appveyor.com/project/MarkZither/log4net-appender-influxdbsyslog/branch/dev)|
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Log4net.Appender.InfluxDBSyslog&metric=alert_status)](https://sonarcloud.io/dashboard?id=Log4net.Appender.InfluxDBSyslog)
 

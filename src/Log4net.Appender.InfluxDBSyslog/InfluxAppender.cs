@@ -3,15 +3,21 @@ using log4net.Appender;
 using log4net.Core;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Log4net.Appender.InfluxDBSyslog
 {
     public class InfluxAppender : AppenderSkeleton
     {
         public string Host { get; set; }
+        private HttpClient HttpClient;
         public InfluxAppender()
         {
-
+            HttpClient = new HttpClient();
+        }
+        public InfluxAppender(HttpClient httpClient)
+        {
+            HttpClient = httpClient;
         }
 
         protected override async void Append(LoggingEvent loggingEvent)
@@ -20,7 +26,9 @@ namespace Log4net.Appender.InfluxDBSyslog
                 new Uri(Host),
                 string.Empty,
                 string.Empty,
-                InfluxData.Net.Common.Enums.InfluxDbVersion.Latest);
+                InfluxData.Net.Common.Enums.InfluxDbVersion.Latest, 
+                InfluxData.Net.Common.Enums.QueryLocation.FormData,
+                HttpClient);
             InfluxData.Net.InfluxDb.InfluxDbClient client = new InfluxData.Net.InfluxDb.InfluxDbClient(config);
 
             var fields = new Dictionary<string, object>();

@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0-alpha14</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Log4net.Appender.InfluxDBSyslog" Version="*" />
+    <ProjectReference Include="..\..\src\Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj" />
   </ItemGroup>
 
 </Project>

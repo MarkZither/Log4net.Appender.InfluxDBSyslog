@@ -6,6 +6,7 @@
     <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.1.0-alpha14</Version>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
   <ItemGroup>

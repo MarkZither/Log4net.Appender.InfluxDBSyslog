@@ -7,6 +7,8 @@ environment:
     secure: JwKHzxmM+/3pEixMh4+ahdBP/WfaXu8ACXJc6jvs5Eo=
   PROJECTTOKEN:
     secure: 7AolUkwXviuDD/C9rN7tEQmo5FhiGR2mo/j0Xi8pSeAJO9xCv1cR/CQvCQ7mZbnB
+  NUGETAPIKEY:
+    secure: VyMyYjPUU54ViZKnHF3IR7qvhYmsYIZoVIb+YbBncXidXb0aNv4eXJ0CDItYCCjZ
 nuget:
   project_feed: true
   disable_publish_on_pr: true
@@ -36,6 +38,7 @@ after_build:
 - cmd: ECHO nuget pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
 - cmd: nuget pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
 - cmd: appveyor PushArtifact "Log4net.Appender.InfluxDBSyslog.%GitVersion_NuGetVersion%.nupkg"
+- ps: nuget push "Log4net.Appender.InfluxDBSyslog.$env:GitVersion_NuGetVersion.nupkg" -Source https://api.nuget.org/v3/index.json -apikey $env:NUGETAPIKEY
 notifications:
 - provider: Email
   to:

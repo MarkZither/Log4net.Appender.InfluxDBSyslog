@@ -7,11 +7,20 @@
     <Company>Zither IT</Company>
     <Description>Log4net appender that posts events to InfluxDB in Syslog format</Description>
     <Copyright>Copyright © 2019 Mark Burton</Copyright>
+    <PackageProjectUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <Version>0.1.0-alpha10</Version>
+    <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
+    <PackageTags>Log4net InfluxDB syslog</PackageTags>
   </PropertyGroup>
-
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'DebugWithPackageGeneration' ">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="InfluxData.Net" Version="8.0.1" />
-    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net" Version="2.0.*" />
   </ItemGroup>
 
 </Project>

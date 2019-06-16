@@ -17,7 +17,6 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
     {
         private static InfluxAppender _appender;
         private static ILog _log;
-        private HttpClient _client;
 
         public UnitTest1()
         {
@@ -32,7 +31,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
             var appender = new InfluxAppender()
             {
                 Name = "InfluxAppender",
-                Host = "http://localhost:8086"
+                Host = "localhost"
             };
             appender.ActivateOptions();
 
@@ -53,26 +52,15 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
         [Fact]
         public void AppendIntegrationTest()
         {
-            // Arrange         
-            var callbackExecuted = false;
-            var json = @"{
-				""data"": [
-					{}";
-            
+            // Arrange      
             Mock<InfluxAppender> mock = new Mock<InfluxAppender>() { CallBase = true };
-            mock.Object.Host = "http://localhost:8086";
-
-            Action<HttpRequestMessage, CancellationToken> callback = new Action<HttpRequestMessage, CancellationToken>((requestMessage, cancellationToken) => {
-                Assert.Equal("http://localhost:5000/identity/api/users", requestMessage.RequestUri.AbsoluteUri);
-                callbackExecuted = true;
-            });
-
-            //var httpMessageHandlerMock = MockHttpMessageHandler(HttpStatusCode.OK, json, callback);
-            //var httpClient = new Func<HttpClient>(() => new HttpClient(httpMessageHandlerMock.Object));
+            mock.Object.Host = "localhost";
+            mock.Object.RemotePort = 8086;
+            mock.Object.Facility = "App";
+            mock.Object.AppName = "MyTestApp";
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             
- 
             BasicConfigurator.Configure(logRepository, mock.Object);
 
             var log = LogManager.GetLogger(typeof(InfluxAppender));
@@ -88,25 +76,13 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
         {
             Skip.If(bool.TryParse(Environment.GetEnvironmentVariable("APPVEYOR"), out _));
             // Arrange         
-            var callbackExecuted = false;
-            var json = @"{
-				""data"": [
-					{}";
-
-
             Mock<InfluxAppender> mock = new Mock<InfluxAppender>() { CallBase = true };
-            mock.Object.Host = "http://localhost:8086";
-
-            Action<HttpRequestMessage, CancellationToken> callback = new Action<HttpRequestMessage, CancellationToken>((requestMessage, cancellationToken) => {
-                Assert.Equal("http://localhost:5000/identity/api/users", requestMessage.RequestUri.AbsoluteUri);
-                callbackExecuted = true;
-            });
-
-            //var httpMessageHandlerMock = MockHttpMessageHandler(HttpStatusCode.OK, json, callback);
-            //var httpClient = new Func<HttpClient>(() => new HttpClient(httpMessageHandlerMock.Object));
+            mock.Object.Host = "localhost";
+            mock.Object.RemotePort = 8086;
+            mock.Object.Facility = "App";
+            mock.Object.AppName = "MyTestApp";
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-
 
             BasicConfigurator.Configure(logRepository, mock.Object);
 

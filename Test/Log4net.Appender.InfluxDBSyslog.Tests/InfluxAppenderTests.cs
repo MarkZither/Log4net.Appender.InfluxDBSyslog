@@ -9,13 +9,9 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
     {
         private MockRepository mockRepository;
 
-
-
         public InfluxAppenderTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-
-
         }
 
         public void Dispose()
@@ -39,6 +35,19 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
 
             // Assert
             Assert.True(true);
+        }
+
+        [Fact]
+        public void SetRemotePortTest()
+        {
+            // Arrange
+            var unitUnderTest = this.CreateInfluxAppender();
+
+            // Act
+            unitUnderTest.RemotePort = 8086;
+
+            // Assert
+            Assert.Equal(8086, unitUnderTest.RemotePort);
         }
     }
 }

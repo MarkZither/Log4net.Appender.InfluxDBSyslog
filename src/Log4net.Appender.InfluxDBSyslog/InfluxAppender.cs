@@ -67,7 +67,7 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         protected override async void Append(LoggingEvent loggingEvent)
         {
-            SyslogSeverity severity = GetSyslogSeverity(loggingEvent.Level);
+            SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
 
             InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
                 new UriBuilder(Scheme, Host, RemotePort).Uri,
@@ -111,25 +111,6 @@ namespace Log4net.Appender.InfluxDBSyslog
             catch (Exception ex)
             {
                 base.ErrorHandler.Error($"{nameof(InfluxAppender)} Emit - {ex.Message}");
-            }
-        }
-
-        private SyslogSeverity GetSyslogSeverity(Level level)
-        {
-            switch (level.Name)
-            {
-                case "FATAL":
-                    return new SyslogSeverity() { Severity = "emerg", SeverityCode = 0 };
-                case "ERROR":
-                    return new SyslogSeverity() { Severity = "err", SeverityCode = 3 };
-                case "WARN":
-                    return new SyslogSeverity() { Severity = "warning", SeverityCode = 4 };
-                case "INFO":
-                    return new SyslogSeverity() { Severity = "info", SeverityCode = 4 };
-                case "DEBUG":
-                    return new SyslogSeverity() { Severity = "debug", SeverityCode = 6 };
-                default:
-                    return new SyslogSeverity() { Severity = "notice", SeverityCode = 7 };
             }
         }
 

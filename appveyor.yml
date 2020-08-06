@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 environment:
   PROJECTNAME:
     secure: TXn+4FwXgqnWzXjW1NkU6LTyaJk2GfhNM2kvKzq0Oe8=
@@ -8,7 +8,7 @@ environment:
   PROJECTTOKEN:
     secure: 7AolUkwXviuDD/C9rN7tEQmo5FhiGR2mo/j0Xi8pSeAJO9xCv1cR/CQvCQ7mZbnB
   NUGETAPIKEY:
-    secure: VyMyYjPUU54ViZKnHF3IR7qvhYmsYIZoVIb+YbBncXidXb0aNv4eXJ0CDItYCCjZ
+    secure: ew1U6IDF6F6/DDSskwPZSWKYFVvr7BiCScMI+ope6fU6dc+x/JGcQ0lXOU+80t+r
 nuget:
   project_feed: true
   disable_publish_on_pr: true

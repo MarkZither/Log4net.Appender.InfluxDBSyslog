@@ -8,6 +8,9 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
 {
     class Program
     {
+        protected Program()
+        { }
+
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
@@ -15,7 +18,7 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
             // Thanks Stackify https://stackify.com/making-log4net-net-core-work/
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4net.config"));
-            //BasicConfigurator.Configure(logRepository);
+
             Console.WriteLine("Hello World!");
             log.Error("Error Console");
             log.Debug("Debug Console");

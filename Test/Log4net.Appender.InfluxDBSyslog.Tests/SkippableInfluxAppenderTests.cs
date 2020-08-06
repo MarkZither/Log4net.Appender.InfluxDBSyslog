@@ -13,12 +13,12 @@ using Xunit;
 
 namespace Log4net.Appender.InfluxDBSyslog.Test
 {
-    public class UnitTest1
+    public class SkippableInfluxAppenderTests
     {
         private static InfluxAppender _appender;
         private static ILog _log;
 
-        public UnitTest1()
+        public SkippableInfluxAppenderTests()
         {
             CreateAppender();
         }
@@ -49,10 +49,12 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
             _log = LogManager.GetLogger(typeof(InfluxAppender));
         }
 
-        [Fact]
+        [SkippableFact]
         public void AppendIntegrationTest()
         {
+            Skip.If(bool.TryParse(Environment.GetEnvironmentVariable("APPVEYOR"), out _));
             // Arrange      
+
             Mock<InfluxAppender> mock = new Mock<InfluxAppender>() { CallBase = true };
             mock.Object.Host = "localhost";
             mock.Object.RemotePort = 8086;
@@ -61,29 +63,6 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             
-            BasicConfigurator.Configure(logRepository, mock.Object);
-
-            var log = LogManager.GetLogger(typeof(InfluxAppender));
-            // Act
-            log.Info("message");
-
-            //Assert
-            Assert.True(true);
-        }
-
-        [SkippableFact]
-        public void AppendTest()
-        {
-            Skip.If(bool.TryParse(Environment.GetEnvironmentVariable("APPVEYOR"), out _));
-            // Arrange         
-            Mock<InfluxAppender> mock = new Mock<InfluxAppender>() { CallBase = true };
-            mock.Object.Host = "localhost";
-            mock.Object.RemotePort = 8086;
-            mock.Object.Facility = "App";
-            mock.Object.AppName = "MyTestApp";
-
-            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-
             BasicConfigurator.Configure(logRepository, mock.Object);
 
             var log = LogManager.GetLogger(typeof(InfluxAppender));

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Log4net.Appender.InfluxDBSyslog
+﻿namespace Log4net.Appender.InfluxDBSyslog
 {
     public class SyslogSeverity
     {

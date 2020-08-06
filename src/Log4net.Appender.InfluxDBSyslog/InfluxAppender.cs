@@ -55,7 +55,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         public string AppName { get; set; }
         
 
-        private HttpClient HttpClient;
+        private readonly HttpClient HttpClient;
         public InfluxAppender()
         {
             HttpClient = new HttpClient();
@@ -67,8 +67,7 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         protected override async void Append(LoggingEvent loggingEvent)
         {
-            //var renderedMessage = RenderLoggingEvent(loggingEvent);
-            SyslogSeverity severity = GetSyslogSeverity(loggingEvent.Level);
+            SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
 
             InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
                 new UriBuilder(Scheme, Host, RemotePort).Uri,
@@ -115,25 +114,6 @@ namespace Log4net.Appender.InfluxDBSyslog
             }
         }
 
-        private SyslogSeverity GetSyslogSeverity(Level level)
-        {
-            switch (level.Name)
-            {
-                case "FATAL":
-                    return new SyslogSeverity() { Severity = "emerg", SeverityCode = 0 };
-                case "ERROR":
-                    return new SyslogSeverity() { Severity = "err", SeverityCode = 3 };
-                case "WARN":
-                    return new SyslogSeverity() { Severity = "warning", SeverityCode = 4 };
-                case "INFO":
-                    return new SyslogSeverity() { Severity = "info", SeverityCode = 4 };
-                case "DEBUG":
-                    return new SyslogSeverity() { Severity = "debug", SeverityCode = 6 };
-                default:
-                    return new SyslogSeverity() { Severity = "notice", SeverityCode = 7 };
-            }
-        }
-
         /// <summary>
         /// Initialize the appender based on the options set.
         /// </summary>
@@ -162,7 +142,7 @@ namespace Log4net.Appender.InfluxDBSyslog
 
             if (this.Host == null)
             {
-                throw new ArgumentNullException("RemoteAddress");
+                throw new ArgumentNullException(this.Host);
             }
 
             if (this.RemotePort < IPEndPoint.MinPort || this.RemotePort > IPEndPoint.MaxPort)

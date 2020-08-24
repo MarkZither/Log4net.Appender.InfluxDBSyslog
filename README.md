@@ -44,6 +44,33 @@ dotnet add package Log4net.Appender.InfluxDBSyslog --version 0.1.0-alpha0020
 </configuration>
 ```
 
+### Configure the appender with a layout to support properties 
+``` xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+  </configSections>
+  <log4net>
+  <appender name="InfluxAppender" type="Log4net.Appender.InfluxDBSyslog.InfluxAppender, Log4net.Appender.InfluxDBSyslog">
+    <Scheme>http</Scheme>
+    <Host>localhost</Host>
+    <RemotePort>8086</RemotePort>
+    <AppName>
+        <layout type="log4net.Layout.PatternLayout">
+			  <conversionPattern value="%date AppName2 Test" />
+		  </layout>
+	  </AppName>
+    <Facility>Console Test Custom Facility</Facility>
+  </appender>
+    <root>
+      <level value="INFO" />
+      <appender-ref ref="InfluxAppender" />
+    </root>
+  </log4net>
+</configuration>
+```
+
 ### InfluxDB and Chronograf
 Download InfluxDB 1.7 from [influxdata.com](https://portal.influxdata.com/downloads/)
 

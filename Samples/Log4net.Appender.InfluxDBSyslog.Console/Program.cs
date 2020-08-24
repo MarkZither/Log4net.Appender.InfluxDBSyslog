@@ -1,5 +1,6 @@
 ﻿using log4net;
 using log4net.Config;
+using log4net.Util.TypeConverters;
 using System;
 using System.Reflection;
 using System.Threading;
@@ -17,6 +18,7 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
             // Set up a simple configuration that logs on the console.
             // Thanks Stackify https://stackify.com/making-log4net-net-core-work/
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            GlobalContext.Properties["Environment"] = "envTestTestTest";
             XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4net.config"));
 
             Console.WriteLine("Hello World!");

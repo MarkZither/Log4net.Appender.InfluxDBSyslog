@@ -59,7 +59,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Test
             mock.Object.Host = "localhost";
             mock.Object.RemotePort = 8086;
             mock.Object.Facility = "App";
-            mock.Object.AppName = "MyTestApp";
+            mock.Object.AppName = new AppName("MyTestApp");
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             

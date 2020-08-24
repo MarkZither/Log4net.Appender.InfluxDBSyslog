@@ -1,6 +1,7 @@
 ﻿using InfluxData.Net.InfluxDb.Infrastructure;
 using log4net.Appender;
 using log4net.Core;
+using log4net.Util.TypeConverters;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -52,12 +53,15 @@ namespace Log4net.Appender.InfluxDBSyslog
         /// </summary>
         private int _remotePort;
         public string Facility { get; set; }
-        public string AppName { get; set; }
-        
+        public AppName AppName { get; set; }
+
 
         private readonly HttpClient HttpClient;
+
         public InfluxAppender()
         {
+            ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
+            //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }
         public InfluxAppender(HttpClient httpClient)
@@ -87,7 +91,8 @@ namespace Log4net.Appender.InfluxDBSyslog
             fields.Add("version", 1);
 
             var tags = new Dictionary<string, object>();
-            tags.Add("appname", AppName);
+            AppName.FormatValue(loggingEvent);
+            tags.Add("appname", AppName.Value);
             tags.Add("facility", Facility);
             tags.Add("host", Environment.MachineName);
             tags.Add("hostname", Environment.MachineName);

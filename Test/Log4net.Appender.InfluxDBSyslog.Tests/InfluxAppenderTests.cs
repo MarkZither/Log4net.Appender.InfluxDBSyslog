@@ -62,7 +62,39 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             mock.Object.Host = "localhost";
             mock.Object.RemotePort = 8086;
             mock.Object.Facility = "App";
-            mock.Object.AppName = "MyTestApp";
+            mock.Object.AppName = new AppName("MyTestApp");
+
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+
+            BasicConfigurator.Configure(logRepository, mock.Object);
+
+            var log = LogManager.GetLogger(typeof(InfluxAppender));
+            // Act
+            log.Info("message");
+
+            //Assert
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void AppendFormattedAppNameTest()
+        {
+            // Arrange         
+            var mockHttp = new MockHttpMessageHandler();
+
+            // Setup a respond for the user api (including a wildcard in the URL)
+            mockHttp.When("http://localhost:8086/*")
+                    .Respond(HttpStatusCode.NoContent, "application/json", "{}"); // Respond with JSON
+            mockHttp.Fallback.Respond(new HttpClient());
+            // Inject the handler or client into your application code
+            var client = mockHttp.ToHttpClient();
+
+            Mock<InfluxAppender> mock = new Mock<InfluxAppender>(client) { CallBase = true };
+            mock.Object.Host = "localhost";
+            mock.Object.RemotePort = 8086;
+            mock.Object.Facility = "App";
+            mock.Object.AppName = new AppName();
+            mock.Object.AppName.Layout = new Layout2RawLayoutAdapter(new PatternLayout("%date MyTestApp"));
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
 

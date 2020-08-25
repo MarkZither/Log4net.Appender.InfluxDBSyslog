@@ -1,5 +1,7 @@
 ﻿using log4net.Core;
 using log4net.Layout;
+using log4net.Util.TypeConverters;
+using System;
 
 namespace Log4net.Appender.InfluxDBSyslog
 {
@@ -28,6 +30,11 @@ namespace Log4net.Appender.InfluxDBSyslog
         /// </remarks>
         public Facility()
         {
+        }
+
+        public Facility(string value)
+        {
+            Value = value;
         }
 
         #endregion Public Instance Constructors
@@ -110,5 +117,23 @@ namespace Log4net.Appender.InfluxDBSyslog
 #region Private Instance Fields
 
         #endregion Private Instance Fields
+    }
+
+    public class ConvertStringToFacility : IConvertFrom
+    {
+        bool IConvertFrom.CanConvertFrom(Type sourceType)
+        {
+            return sourceType == typeof(string);
+        }
+
+        object IConvertFrom.ConvertFrom(object source)
+        {
+            string str = source as string;
+            if (str != null)
+            {
+                return new Facility(str);
+            }
+            throw ConversionNotSupportedException.Create(typeof(Facility), source);
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             Mock<InfluxAppender> mock = new Mock<InfluxAppender>(client) { CallBase = true };
             mock.Object.Host = "localhost";
             mock.Object.RemotePort = 8086;
-            mock.Object.Facility = "App";
+            mock.Object.Facility = new Facility("MyTestFacility");
             mock.Object.AppName = new AppName("MyTestApp");
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
@@ -92,7 +92,8 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             Mock<InfluxAppender> mock = new Mock<InfluxAppender>(client) { CallBase = true };
             mock.Object.Host = "localhost";
             mock.Object.RemotePort = 8086;
-            mock.Object.Facility = "App";
+            mock.Object.Facility = new Facility();
+            mock.Object.Facility.Layout = new Layout2RawLayoutAdapter(new PatternLayout("%date MyTestFacility"));
             mock.Object.AppName = new AppName();
             mock.Object.AppName.Layout = new Layout2RawLayoutAdapter(new PatternLayout("%date MyTestApp"));
 

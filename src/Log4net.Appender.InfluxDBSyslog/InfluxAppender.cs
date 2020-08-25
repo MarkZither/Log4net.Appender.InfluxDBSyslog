@@ -52,7 +52,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         /// which the logging event will be sent.
         /// </summary>
         private int _remotePort;
-        public string Facility { get; set; }
+        public Facility Facility { get; set; }
         public AppName AppName { get; set; }
 
 
@@ -61,6 +61,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         public InfluxAppender()
         {
             ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
+            ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
             //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }

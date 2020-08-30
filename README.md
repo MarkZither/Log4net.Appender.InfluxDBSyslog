@@ -86,6 +86,23 @@ Run influxd and chronograf and see your logs flowing in.
 
     dotnet build
 
+## Benchmarks
+
+``` ini
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.450 (2004/?/20H1)
+Intel Core i7-2640M CPU 2.80GHz (Sandy Bridge), 1 CPU, 4 logical and 2 physical cores
+.NET Core SDK=3.1.400-preview-015203
+  [Host]     : .NET Core 2.1.16 (CoreCLR 4.6.28516.03, CoreFX 4.6.28516.10), X64 RyuJIT
+  DefaultJob : .NET Core 2.1.16 (CoreCLR 4.6.28516.03, CoreFX 4.6.28516.10), X64 RyuJIT
+```
+|                                        Method |    N |           Mean |         Error |        StdDev |
+|---------------------------------------------- |----- |---------------:|--------------:|--------------:|
+|                        LogSomethingNoAppender | 1000 |       620.1 ns |       9.76 ns |      16.04 ns ||                                  LogSomething | 1000 | 2,610,454.3 ns | 179,454.60 ns | 514,888.89 ns |
+|               LogSomethingRollingFileAppender | 1000 |    16,017.5 ns |     195.63 ns |     163.36 ns |
+| LogSomethingRollingFileAppenderNoStringInterp | 1000 |    15,570.0 ns |     243.98 ns |     228.22 ns |
+|                  LogSomethingInfluxWithLayout | 1000 |   467,317.2 ns |  12,506.07 ns |    35,477.63 ns |   460,561.2 ns |
+|               LogSomethingWithLayoutNoConsole | 1000 |   498,537.5 ns |  20,056.39 ns |    58,187.22 ns |   511,591.6 ns |
+
 ## Contribute
 
 If you have any idea for an improvement or found a bug, do not hesitate to open an issue.

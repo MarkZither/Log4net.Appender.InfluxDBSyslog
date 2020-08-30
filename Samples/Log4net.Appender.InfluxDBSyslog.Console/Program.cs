@@ -73,10 +73,10 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
         }
 
         [Benchmark]
-        public void LogSomething() => log.Error($"Error Console {N}");
-
+        public void LogSomethingNoAppender() => log.Error($"Error {N}");        
+        
         [Benchmark]
-        public void LogSomethingNoAppender() => log.Error($"Error {N}");
+        public void LogSomething() => log.Error($"Error Console {N}");
 
         [Benchmark]
         public void LogSomethingRollingFileAppender() => log.Error($"Error File {N}");

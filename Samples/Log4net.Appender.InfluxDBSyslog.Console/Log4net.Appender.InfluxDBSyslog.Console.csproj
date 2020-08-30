@@ -11,12 +11,32 @@
 
   <ItemGroup>
     <None Remove="log4net.config" />
+    <None Remove="log4netInfluxWithLayout.config" />
+    <None Remove="log4netNoAppender.config" />
+    <None Remove="log4netRollingFileAppender.config" />
+    <None Remove="log4netWithLayoutNoConsole.config" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="log4netRollingFileAppender.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4netNoAppender.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4netWithLayoutNoConsole.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4netInfluxWithLayout.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
   </ItemGroup>
 
   <ItemGroup>

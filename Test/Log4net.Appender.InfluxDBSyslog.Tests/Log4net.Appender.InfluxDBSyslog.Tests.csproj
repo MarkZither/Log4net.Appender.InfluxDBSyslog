@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="log4netInfluxWithLayout.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="Moq" Version="4.14.5" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
@@ -24,4 +29,11 @@
     <ProjectReference Include="..\..\src\Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Content Include="log4netInfluxWithLayout.config">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
+	<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+	
 </Project>

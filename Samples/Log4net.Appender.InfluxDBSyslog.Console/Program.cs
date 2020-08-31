@@ -37,6 +37,36 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
             XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4netInfluxWithLayout.config"));
         }
 
+        [GlobalSetup(Targets = new[] { nameof(LogSomethingBuffering1InfluxWithLayout) })]
+        public void SetupWithBuffering1Layout()
+        {
+            // Set up a simple configuration that logs on the console.
+            // Thanks Stackify https://stackify.com/making-log4net-net-core-work/
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            GlobalContext.Properties["Environment"] = "envTestTestTest";
+            XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4netBufferingInfluxWithLayoutBuffer1.config"));
+        }
+
+        [GlobalSetup(Targets = new[] { nameof(LogSomethingBuffering5InfluxWithLayout) })]
+        public void SetupWithBuffering5Layout()
+        {
+            // Set up a simple configuration that logs on the console.
+            // Thanks Stackify https://stackify.com/making-log4net-net-core-work/
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            GlobalContext.Properties["Environment"] = "envTestTestTest";
+            XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4netBufferingInfluxWithLayoutBuffer5.config"));
+        }
+
+        [GlobalSetup(Targets = new[] { nameof(LogSomethingBuffering10InfluxWithLayout) })]
+        public void SetupWithBuffering10Layout()
+        {
+            // Set up a simple configuration that logs on the console.
+            // Thanks Stackify https://stackify.com/making-log4net-net-core-work/
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+            GlobalContext.Properties["Environment"] = "envTestTestTest";
+            XmlConfigurator.Configure(logRepository, new System.IO.FileInfo("log4netBufferingInfluxWithLayoutBuffer10.config"));
+        }
+
         [GlobalSetup(Targets = new[] { nameof(LogSomethingWithLayoutNoConsole) })]
         public void SetupWithLayoutNoConsole()
         {
@@ -88,6 +118,15 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
 
         [Benchmark]
         public void LogSomethingWithLayoutNoConsole() => log.Error($"Error Console {N} ");
+
+        [Benchmark]
+        public void LogSomethingBuffering1InfluxWithLayout() => log.Error($"Error Console {N}");
+
+        [Benchmark]
+        public void LogSomethingBuffering5InfluxWithLayout() => log.Error($"Error Console {N}");
+
+        [Benchmark]
+        public void LogSomethingBuffering10InfluxWithLayout() => log.Error($"Error Console {N}");
     }
 
     class Program
@@ -98,6 +137,10 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello World!");
+            log.Error("Error Console");
+            log.Debug("Debug Console");
+
 #if RELEASE
             var summary = BenchmarkRunner.Run<LogALot>();
 #endif

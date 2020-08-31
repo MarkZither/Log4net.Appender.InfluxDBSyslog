@@ -11,6 +11,9 @@
 
   <ItemGroup>
     <None Remove="log4net.config" />
+    <None Remove="log4netBufferingInfluxWithLayout1.config" />
+    <None Remove="log4netBufferingInfluxWithLayoutBuffer10.config" />
+    <None Remove="log4netBufferingInfluxWithLayoutBuffer5.config" />
     <None Remove="log4netInfluxWithLayout.config" />
     <None Remove="log4netNoAppender.config" />
     <None Remove="log4netRollingFileAppender.config" />
@@ -18,6 +21,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="log4netBufferingInfluxWithLayoutBuffer10.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4netBufferingInfluxWithLayoutBuffer5.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="log4netBufferingInfluxWithLayout1.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="log4netRollingFileAppender.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -89,19 +89,27 @@ Run influxd and chronograf and see your logs flowing in.
 ## Benchmarks
 
 ``` ini
+
 BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.450 (2004/?/20H1)
 Intel Core i7-2640M CPU 2.80GHz (Sandy Bridge), 1 CPU, 4 logical and 2 physical cores
 .NET Core SDK=3.1.400-preview-015203
   [Host]     : .NET Core 2.1.16 (CoreCLR 4.6.28516.03, CoreFX 4.6.28516.10), X64 RyuJIT
   DefaultJob : .NET Core 2.1.16 (CoreCLR 4.6.28516.03, CoreFX 4.6.28516.10), X64 RyuJIT
+
+
 ```
-|                                        Method |    N |           Mean |         Error |        StdDev |
-|---------------------------------------------- |----- |---------------:|--------------:|--------------:|
-|                        LogSomethingNoAppender | 1000 |       620.1 ns |       9.76 ns |      16.04 ns ||                                  LogSomething | 1000 | 2,610,454.3 ns | 179,454.60 ns | 514,888.89 ns |
-|               LogSomethingRollingFileAppender | 1000 |    16,017.5 ns |     195.63 ns |     163.36 ns |
-| LogSomethingRollingFileAppenderNoStringInterp | 1000 |    15,570.0 ns |     243.98 ns |     228.22 ns |
-|                  LogSomethingInfluxWithLayout | 1000 |   467,317.2 ns |  12,506.07 ns |    35,477.63 ns |   460,561.2 ns |
-|               LogSomethingWithLayoutNoConsole | 1000 |   498,537.5 ns |  20,056.39 ns |    58,187.22 ns |   511,591.6 ns |
+|                                        Method |    N |         Mean |        Error |       StdDev |       Median |
+|---------------------------------------------- |----- |-------------:|-------------:|-------------:|-------------:|
+|                        LogSomethingNoAppender | 1000 |     630.2 ns |      9.14 ns |     11.22 ns |     625.6 ns |
+|                                  LogSomething | 1000 | 839,168.7 ns | 16,359.17 ns | 39,820.48 ns | 845,339.4 ns |
+|               LogSomethingRollingFileAppender | 1000 |  16,314.1 ns |    292.45 ns |    273.56 ns |  16,182.8 ns |
+| LogSomethingRollingFileAppenderNoStringInterp | 1000 |  15,674.9 ns |    309.84 ns |    444.37 ns |  15,519.1 ns |
+|                  LogSomethingInfluxWithLayout | 1000 | 532,877.2 ns | 23,140.29 ns | 68,229.67 ns | 555,832.2 ns |
+|               LogSomethingWithLayoutNoConsole | 1000 | 432,839.6 ns | 26,327.45 ns | 75,113.70 ns | 396,361.9 ns |
+|        LogSomethingBuffering1InfluxWithLayout | 1000 |     345.3 ns |      6.86 ns |     12.02 ns |     344.4 ns |
+|        LogSomethingBuffering5InfluxWithLayout | 1000 | 157,534.3 ns |  2,933.34 ns |  7,676.04 ns | 156,842.5 ns |
+|       LogSomethingBuffering10InfluxWithLayout | 1000 |  99,840.1 ns |  2,806.37 ns |  7,869.36 ns |  96,839.1 ns |
+
 
 ## Contribute
 

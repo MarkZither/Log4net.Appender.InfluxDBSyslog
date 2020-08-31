@@ -135,7 +135,7 @@ namespace Log4net.Appender.InfluxDBSyslog
                 fields.Add("message", loggingEvent.MessageObject);
                 fields.Add("procid", "1234");
                 fields.Add("severity_code", severity.SeverityCode);
-                fields.Add("timestamp", DateTimeOffset.Now.ToUnixTimeMilliseconds() * 1000000);
+                fields.Add("timestamp", UnixTimestampFromDateTime(loggingEvent.TimeStamp));
                 fields.Add("version", 1);
 
                 var tags = new Dictionary<string, object>();
@@ -160,6 +160,12 @@ namespace Log4net.Appender.InfluxDBSyslog
             {
                 base.ErrorHandler.Error($"{nameof(InfluxAppender)} Emit - {ex.Message}");
             }
+        }
+        public static long UnixTimestampFromDateTime(DateTime date)
+        {
+            long unixTimestamp = date.Ticks - new DateTime(1970, 1, 1).Ticks;
+            unixTimestamp /= TimeSpan.TicksPerSecond;
+            return unixTimestamp;
         }
     }
 }

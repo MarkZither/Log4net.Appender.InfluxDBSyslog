@@ -98,18 +98,17 @@ Intel Core i7-2640M CPU 2.80GHz (Sandy Bridge), 1 CPU, 4 logical and 2 physical 
 
 
 ```
-|                                        Method |    N |         Mean |        Error |       StdDev |       Median |
-|---------------------------------------------- |----- |-------------:|-------------:|-------------:|-------------:|
-|                        LogSomethingNoAppender | 1000 |     630.2 ns |      9.14 ns |     11.22 ns |     625.6 ns |
-|                                  LogSomething | 1000 | 839,168.7 ns | 16,359.17 ns | 39,820.48 ns | 845,339.4 ns |
-|               LogSomethingRollingFileAppender | 1000 |  16,314.1 ns |    292.45 ns |    273.56 ns |  16,182.8 ns |
-| LogSomethingRollingFileAppenderNoStringInterp | 1000 |  15,674.9 ns |    309.84 ns |    444.37 ns |  15,519.1 ns |
-|                  LogSomethingInfluxWithLayout | 1000 | 532,877.2 ns | 23,140.29 ns | 68,229.67 ns | 555,832.2 ns |
-|               LogSomethingWithLayoutNoConsole | 1000 | 432,839.6 ns | 26,327.45 ns | 75,113.70 ns | 396,361.9 ns |
-|        LogSomethingBuffering1InfluxWithLayout | 1000 |     345.3 ns |      6.86 ns |     12.02 ns |     344.4 ns |
-|        LogSomethingBuffering5InfluxWithLayout | 1000 | 157,534.3 ns |  2,933.34 ns |  7,676.04 ns | 156,842.5 ns |
-|       LogSomethingBuffering10InfluxWithLayout | 1000 |  99,840.1 ns |  2,806.37 ns |  7,869.36 ns |  96,839.1 ns |
-
+|                                        Method |    N |           Mean |        Error |       StdDev |       Median |
+|---------------------------------------------- |----- |---------------:|-------------:|-------------:|-------------:|
+|                        LogSomethingNoAppender | 1000 |       681.9 ns |     12.53 ns |     11.72 ns |     678.8 ns |
+|                                  LogSomething | 1000 | 1,008,850.6 ns | 25,344.37 ns | 69,805.77 ns | 995,548.6 ns |
+|               LogSomethingRollingFileAppender | 1000 |    18,459.7 ns |    354.54 ns |    639.31 ns |  18,304.9 ns |
+| LogSomethingRollingFileAppenderNoStringInterp | 1000 |    17,923.6 ns |    350.97 ns |    328.30 ns |  17,751.9 ns |
+|                  LogSomethingInfluxWithLayout | 1000 |   444,051.0 ns | 22,226.97 ns | 62,326.82 ns | 415,885.4 ns |
+|               LogSomethingWithLayoutNoConsole | 1000 |   522,403.7 ns | 13,862.15 ns | 39,098.45 ns | 526,787.7 ns |
+|        LogSomethingBuffering1InfluxWithLayout | 1000 |   819,144.6 ns |  9,321.40 ns |  7,277.53 ns | 819,914.1 ns |
+|        LogSomethingBuffering5InfluxWithLayout | 1000 |   156,899.9 ns |  2,402.27 ns |  5,119.43 ns | 155,756.2 ns |
+|       LogSomethingBuffering10InfluxWithLayout | 1000 |    95,998.6 ns |  1,342.31 ns |  2,711.54 ns |  95,510.6 ns |
 
 ## Contribute
 

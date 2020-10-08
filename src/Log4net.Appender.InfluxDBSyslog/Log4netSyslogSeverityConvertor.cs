@@ -1,8 +1,16 @@
 ﻿using log4net.Core;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Log4net.Appender.InfluxDBSyslog
 {
+
+#pragma warning disable S101 // Types should be named in PascalCase
+    [SuppressMessage(
+ "not my naming convention",
+ "S101:Types should be named in PascalCase"
+)]
     internal static class Log4netSyslogSeverityConvertor
+#pragma warning restore S101 // Types should be named in PascalCase
     {
         internal static SyslogSeverity GetSyslogSeverity(Level level)
         {

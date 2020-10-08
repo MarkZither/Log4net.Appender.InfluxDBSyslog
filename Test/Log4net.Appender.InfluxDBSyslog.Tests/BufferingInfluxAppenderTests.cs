@@ -14,17 +14,17 @@ using Xunit;
 namespace Log4net.Appender.InfluxDBSyslog.Tests
 {
     [ExcludeFromCodeCoverage]
-    public class InfluxAppenderTests : IDisposable
+    public class BufferingInfluxAppenderTests : IDisposable
     {
         private MockRepository mockRepository;
 
-        public InfluxAppenderTests()
+        public BufferingInfluxAppenderTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
             var layout = new PatternLayout("%.255message");
             layout.ActivateOptions();
 
-            var appender = new InfluxAppender()
+            var appender = new BufferingInfluxAppender()
             {
                 Name = "InfluxAppender",
                 Host = "localhost"
@@ -40,9 +40,9 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             this.mockRepository.VerifyAll();
         }
 
-        private InfluxAppender CreateInfluxAppender()
+        private BufferingInfluxAppender CreateBufferingInfluxAppender()
         {
-            return new InfluxAppender();
+            return new BufferingInfluxAppender();
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
         public void ActivateOptions_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
-            var unitUnderTest = this.CreateInfluxAppender();
+            var unitUnderTest = this.CreateBufferingInfluxAppender();
 
             // Act
             unitUnderTest.ActivateOptions();
@@ -126,7 +126,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
         public void PropertyRemotePort_StoresCorrectly()
         {
             // Arrange
-            var unitUnderTest = this.CreateInfluxAppender();
+            var unitUnderTest = this.CreateBufferingInfluxAppender();
 
             // Act
             unitUnderTest.RemotePort = 8086;
@@ -139,7 +139,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
         public void PropertyHost_StoresCorrectly()
         {
             // Arrange
-            var unitUnderTest = this.CreateInfluxAppender();
+            var unitUnderTest = this.CreateBufferingInfluxAppender();
 
             // Act
             unitUnderTest.Host = "localhost";
@@ -152,7 +152,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
         public void PropertyScheme_StoresCorrectly()
         {
             // Arrange
-            var unitUnderTest = this.CreateInfluxAppender();
+            var unitUnderTest = this.CreateBufferingInfluxAppender();
 
             // Act
             unitUnderTest.Scheme = "https";

@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Log4net.Appender.InfluxDBSyslog
 {
-    public class InfluxAppender : AppenderSkeleton
+    public class BufferingInfluxAppender : BufferingAppenderSkeleton
     {
         public string Scheme { get; set; } = "http";
         public string Host { get; set; } = "localhost";
@@ -58,67 +59,18 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         private readonly HttpClient HttpClient;
 
-        public InfluxAppender()
+        public BufferingInfluxAppender()
         {
             ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
             ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
             //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }
-        public InfluxAppender(HttpClient httpClient)
+        public BufferingInfluxAppender(HttpClient httpClient)
         {
             HttpClient = httpClient;
         }
 
-        protected override async void Append(LoggingEvent loggingEvent)
-        {
-            SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
-
-            InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
-                new UriBuilder(Scheme, Host, RemotePort).Uri,
-                string.Empty,
-                string.Empty,
-                InfluxData.Net.Common.Enums.InfluxDbVersion.Latest, 
-                InfluxData.Net.Common.Enums.QueryLocation.FormData,
-                HttpClient);
-            InfluxData.Net.InfluxDb.InfluxDbClient client = new InfluxData.Net.InfluxDb.InfluxDbClient(config);
-
-            var fields = new Dictionary<string, object>();
-            fields.Add("facility_code", 16);
-            fields.Add("message", loggingEvent.MessageObject);
-            fields.Add("procid", "1234");
-            fields.Add("severity_code", severity.SeverityCode);
-            fields.Add("timestamp", DateTimeOffset.Now.ToUnixTimeMilliseconds() * 1000000);
-            fields.Add("version", 1);
-
-            var tags = new Dictionary<string, object>();
-            AppName.FormatValue(loggingEvent);
-            tags.Add("appname", AppName.Value);
-            tags.Add("facility", Facility);
-            tags.Add("host", Environment.MachineName);
-            tags.Add("hostname", Environment.MachineName);
-            tags.Add("severity", severity.Severity);
-            try
-            {
-                var apiResp = await client.Client.WriteAsync(new InfluxData.Net.InfluxDb.Models.Point()
-                {
-                    Name = "syslog",
-                    Fields = fields,
-                    Tags = tags,
-                    Timestamp = DateTimeOffset.Now.UtcDateTime
-                }, "_internal"
-            );
-
-                if (!apiResp.Success)
-                {
-                    base.ErrorHandler.Error($"{nameof(InfluxAppender)} Write - {apiResp.Body}");
-                }
-            }
-            catch (Exception ex)
-            {
-                base.ErrorHandler.Error($"{nameof(InfluxAppender)} Emit - {ex.Message}");
-            }
-        }
 
         /// <summary>
         /// Initialize the appender based on the options set.
@@ -159,6 +111,61 @@ namespace Log4net.Appender.InfluxDBSyslog
                     " or greater than " +
                     IPEndPoint.MaxPort.ToString(NumberFormatInfo.InvariantInfo) + ".");
             }
+        }
+
+        protected override void SendBuffer(LoggingEvent[] events)
+        {
+           
+
+            InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
+                new UriBuilder(Scheme, Host, RemotePort).Uri,
+                string.Empty,
+                string.Empty,
+                InfluxData.Net.Common.Enums.InfluxDbVersion.Latest,
+                InfluxData.Net.Common.Enums.QueryLocation.FormData,
+                HttpClient);
+            InfluxData.Net.InfluxDb.InfluxDbClient client = new InfluxData.Net.InfluxDb.InfluxDbClient(config);
+
+            foreach (var loggingEvent in events)
+            {
+                SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
+
+                var fields = new Dictionary<string, object>();
+                fields.Add("facility_code", 16);
+                fields.Add("message", loggingEvent.MessageObject);
+                fields.Add("procid", "1234");
+                fields.Add("severity_code", severity.SeverityCode);
+                fields.Add("timestamp", UnixTimestampFromDateTime(loggingEvent.TimeStamp));
+                fields.Add("version", 1);
+
+                var tags = new Dictionary<string, object>();
+                AppName.FormatValue(loggingEvent);
+                tags.Add("appname", AppName.Value);
+                tags.Add("facility", Facility);
+                tags.Add("host", Environment.MachineName);
+                tags.Add("hostname", Environment.MachineName);
+                tags.Add("severity", severity.Severity);
+            }
+            List<InfluxData.Net.InfluxDb.Models.Point> points = new List<InfluxData.Net.InfluxDb.Models.Point>();
+            try
+            {
+                var apiResp = Task.Run(() => client.Client.WriteAsync(points, "_internal")).GetAwaiter().GetResult();
+
+                if (!apiResp.Success)
+                {
+                    base.ErrorHandler.Error($"{nameof(InfluxAppender)} Write - {apiResp.Body}");
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ErrorHandler.Error($"{nameof(InfluxAppender)} Emit - {ex.Message}");
+            }
+        }
+        public static long UnixTimestampFromDateTime(DateTime date)
+        {
+            long unixTimestamp = date.Ticks - new DateTime(1970, 1, 1).Ticks;
+            unixTimestamp /= TimeSpan.TicksPerSecond;
+            return unixTimestamp;
         }
     }
 }

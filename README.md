@@ -122,4 +122,4 @@ If you have any idea for an improvement or found a bug, do not hesitate to open 
 
 ## License
 
-Log4net.Appenders.Fluentd is distributed under MIT License.
+Log4net.Appender.InfluxDBSyslog is distributed under MIT License.

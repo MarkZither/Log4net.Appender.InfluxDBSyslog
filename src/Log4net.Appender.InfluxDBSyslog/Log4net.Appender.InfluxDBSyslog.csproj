@@ -20,8 +20,8 @@
   
   <ItemGroup>
     <PackageReference Include="InfluxData.Net" Version="8.0.1" />
-    <PackageReference Include="log4net" Version="2.0.*" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.11.0.20529">
+    <PackageReference Include="log4net" Version="2.0.12" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.16.0.25740">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

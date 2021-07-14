@@ -1,6 +1,6 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="InfluxData.Net" Version="8.0.1" />
-    <PackageReference Update="log4net" Version="2.0.8" />
+    <PackageReference Update="log4net" Version="2.0.12" />
   </ItemGroup>
 </Project>

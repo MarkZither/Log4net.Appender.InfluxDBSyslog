@@ -99,15 +99,12 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
 
         public LogALot()
         {
-
         }
 
         [Benchmark]
-        public void LogSomethingNoAppender() => log.Error($"Error {N}");        
-        
+        public void LogSomethingNoAppender() => log.Error($"Error {N}");
         [Benchmark]
         public void LogSomething() => log.Error($"Error Console {N}");
-
         [Benchmark]
         public void LogSomethingRollingFileAppender() => log.Error($"Error File {N}");
         [Benchmark]
@@ -129,13 +126,13 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
         public void LogSomethingBuffering10InfluxWithLayout() => log.Error($"Error Console {N}");
     }
 
-    class Program
+    public class Program
     {
         protected Program()
         { }
 
         private static readonly ILog log = LogManager.GetLogger(typeof(Program));
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             log.Error("Error Console");

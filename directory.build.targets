@@ -1,6 +1,10 @@
 <Project>
   <ItemGroup>
     <PackageReference Update="InfluxData.Net" Version="8.0.1" />
-    <PackageReference Update="log4net" Version="2.0.13" />
   </ItemGroup>
+  <PropertyGroup>
+    <BenchmarkDotNet>0.13.1</BenchmarkDotNet>
+    <MicrosoftEntityFrameworkCorePackageVersion>6.0.0</MicrosoftEntityFrameworkCorePackageVersion>
+    <MicrosoftExtensionsPackageVersion>6.0.0</MicrosoftExtensionsPackageVersion>
+  </PropertyGroup>
 </Project>

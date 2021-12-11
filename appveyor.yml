@@ -47,7 +47,6 @@ after_build:
 notifications:
 - provider: Email
   to:
-  - mburton@dennemeyer.com
   - mark.burton@zither-it.co.uk
   on_build_success: true
   on_build_failure: true

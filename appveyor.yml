@@ -1,5 +1,5 @@
 version: 1.0.{build}
-image: Visual Studio 2019
+image: Visual Studio 2022
 environment:
   PROJECTNAME:
     secure: TXn+4FwXgqnWzXjW1NkU6LTyaJk2GfhNM2kvKzq0Oe8=

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.1.0-alpha14</Version>

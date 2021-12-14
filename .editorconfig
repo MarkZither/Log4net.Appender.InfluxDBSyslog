@@ -1,3 +1,8 @@
 # top-most EditorConfig file
 root = true
 indent_style = space
+
+[*.{cs,vb}]
+indent_style=space
+tab_width=4
+indent_size=4

@@ -4,6 +4,7 @@ using log4net.Core;
 using log4net.Util.TypeConverters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
@@ -55,6 +56,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         private int _remotePort;
         public Facility Facility { get; set; }
         public AppName AppName { get; set; }
+        public ProcId ProcId { get; set; }
 
 
         private readonly HttpClient HttpClient;
@@ -63,6 +65,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         {
             ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
             ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
+            ConverterRegistry.AddConverter(typeof(ProcId), new ConvertStringToProcId());
             //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }
@@ -128,12 +131,19 @@ namespace Log4net.Appender.InfluxDBSyslog
 
             foreach (var loggingEvent in events)
             {
+                string procId = $"{Process.GetCurrentProcess().Id}|{Process.GetCurrentProcess().ProcessName}";
+                if (ProcId != null && !string.IsNullOrWhiteSpace(ProcId.Value))
+                {
+                    ProcId.FormatValue(loggingEvent);
+                    procId = ProcId.Value;
+                }
+
                 SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
 
                 var fields = new Dictionary<string, object>();
                 fields.Add("facility_code", 16);
                 fields.Add("message", loggingEvent.MessageObject);
-                fields.Add("procid", "1234");
+                fields.Add("procid", procId);
                 fields.Add("severity_code", severity.SeverityCode);
                 fields.Add("timestamp", UnixTimestampFromDateTime(loggingEvent.TimeStamp));
                 fields.Add("version", 1);
@@ -161,6 +171,7 @@ namespace Log4net.Appender.InfluxDBSyslog
                 base.ErrorHandler.Error($"{nameof(InfluxAppender)} Emit - {ex.Message}");
             }
         }
+
         public static long UnixTimestampFromDateTime(DateTime date)
         {
             long unixTimestamp = date.Ticks - new DateTime(1970, 1, 1).Ticks;

@@ -4,6 +4,7 @@ using log4net.Core;
 using log4net.Util.TypeConverters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Net.Http;
@@ -54,6 +55,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         private int _remotePort;
         public Facility Facility { get; set; }
         public AppName AppName { get; set; }
+        public ProcId ProcId { get; set; }
 
 
         private readonly HttpClient HttpClient;
@@ -62,6 +64,7 @@ namespace Log4net.Appender.InfluxDBSyslog
         {
             ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
             ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
+            ConverterRegistry.AddConverter(typeof(ProcId), new ConvertStringToProcId());
             //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }
@@ -83,10 +86,17 @@ namespace Log4net.Appender.InfluxDBSyslog
                 HttpClient);
             InfluxData.Net.InfluxDb.InfluxDbClient client = new InfluxData.Net.InfluxDb.InfluxDbClient(config);
 
+            string procId = $"{Process.GetCurrentProcess().Id}|{Process.GetCurrentProcess().ProcessName}";
+            if(ProcId != null && !string.IsNullOrWhiteSpace(ProcId.Value))
+            {
+                ProcId.FormatValue(loggingEvent);
+                procId = ProcId.Value;
+            }
+
             var fields = new Dictionary<string, object>();
             fields.Add("facility_code", 16);
             fields.Add("message", loggingEvent.MessageObject);
-            fields.Add("procid", "1234");
+            fields.Add("procid", procId);
             fields.Add("severity_code", severity.SeverityCode);
             fields.Add("timestamp", DateTimeOffset.Now.ToUnixTimeMilliseconds() * 1000000);
             fields.Add("version", 1);

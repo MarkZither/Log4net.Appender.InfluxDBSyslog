@@ -111,19 +111,19 @@ namespace Log4net.Appender.InfluxDBSyslog.ConsoleTest
         public void LogSomethingRollingFileAppenderNoStringInterp() => log.Error("Error File");
 
         [Benchmark]
-        public void LogSomethingInfluxWithLayout() => log.Error($"Error Console {N}");
+        public void LogSomethingInfluxWithLayout() => log.Error($"Error Console Layout {N}");
 
         [Benchmark]
-        public void LogSomethingWithLayoutNoConsole() => log.Error($"Error Console {N} ");
+        public void LogSomethingWithLayoutNoConsole() => log.Error($"Error Console Layout NoConsole {N} ");
 
         [Benchmark]
-        public void LogSomethingBuffering1InfluxWithLayout() => log.Error($"Error Console {N}");
+        public void LogSomethingBuffering1InfluxWithLayout() => log.Error($"Error Console Buffering1 {N}");
 
         [Benchmark]
-        public void LogSomethingBuffering5InfluxWithLayout() => log.Error($"Error Console {N}");
+        public void LogSomethingBuffering5InfluxWithLayout() => log.Error($"Error Console Buffering5 {N}");
 
         [Benchmark]
-        public void LogSomethingBuffering10InfluxWithLayout() => log.Error($"Error Console {N}");
+        public void LogSomethingBuffering10InfluxWithLayout() => log.Error($"Error Console Buffering10 {N}");
     }
 
     public class Program

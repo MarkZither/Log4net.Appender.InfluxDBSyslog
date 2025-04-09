@@ -21,18 +21,19 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
         public InfluxAppenderTests()
         {
             this.mockRepository = new MockRepository(MockBehavior.Strict);
-            var layout = new PatternLayout("%.255message");
+            var layout = new PatternLayout("%.255message%exception");
             layout.ActivateOptions();
 
             var appender = new InfluxAppender()
             {
                 Name = "InfluxAppender",
-                Host = "localhost"
+                Host = "localhost",
+                Layout = layout
             };
             appender.ActivateOptions();
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            BasicConfigurator.Configure(logRepository);
+            BasicConfigurator.Configure(logRepository, appender);
         }
 
         public void Dispose()
@@ -71,6 +72,38 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             var log = LogManager.GetLogger(typeof(InfluxAppender));
             // Act
             log.Info("message");
+
+            //Assert
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void AppendErrorTest()
+        {
+            // Arrange         
+            var mockHttp = new MockHttpMessageHandler();
+            var exception = new Exception("Test exception");
+
+            // Setup a respond for the user api (including a wildcard in the URL)
+            mockHttp.When("http://localhost:8086/*")
+                    .Respond(HttpStatusCode.NoContent, "application/json", "{}"); // Respond with JSON
+            mockHttp.Fallback.Respond(new HttpClient());
+            // Inject the handler or client into your application code
+            var client = mockHttp.ToHttpClient();
+
+            Mock<InfluxAppender> mock = new Mock<InfluxAppender>(client) { CallBase = true };
+            mock.Object.Host = "localhost";
+            mock.Object.RemotePort = 8086;
+            mock.Object.Facility = new Facility("MyTestFacility");
+            mock.Object.AppName = new AppName("MyTestApp");
+
+            var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+
+            BasicConfigurator.Configure(logRepository, mock.Object);
+
+            var log = LogManager.GetLogger(typeof(InfluxAppender));
+            // Act
+            log.Error("test message and exception", exception);
 
             //Assert
             Assert.True(true);

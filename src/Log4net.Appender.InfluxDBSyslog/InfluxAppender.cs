@@ -1,11 +1,14 @@
 ﻿using InfluxData.Net.InfluxDb.Infrastructure;
+
 using log4net.Appender;
 using log4net.Core;
 using log4net.Util.TypeConverters;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 
@@ -95,7 +98,8 @@ namespace Log4net.Appender.InfluxDBSyslog
 
             var fields = new Dictionary<string, object>();
             fields.Add("facility_code", 16);
-            fields.Add("message", loggingEvent.MessageObject);
+            string msg = base.RenderLoggingEvent(loggingEvent);
+            fields.Add("message", msg);
             fields.Add("procid", procId);
             fields.Add("severity_code", severity.SeverityCode);
             fields.Add("timestamp", DateTimeOffset.Now.ToUnixTimeMilliseconds() * 1000000);

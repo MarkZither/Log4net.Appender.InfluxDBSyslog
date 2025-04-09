@@ -40,8 +40,8 @@ build:
   verbosity: minimal
 after_build:
 - ps: SonarScanner.MSBuild.exe end /d:"sonar.login=$env:PROJECTTOKEN"
-- cmd: ECHO nuget pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_FullSemVer%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
-- cmd: dotnet pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj -version "%GitVersion_FullSemVer%" -prop "target=%CONFIGURATION%" -Symbols -SymbolPackageFormat snupkg
+- cmd: ECHO dotnet pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj /p:Version="%GitVersion_FullSemVer%" -c"%CONFIGURATION%"
+- cmd: dotnet pack src/Log4net.Appender.InfluxDBSyslog\Log4net.Appender.InfluxDBSyslog.csproj /p:Version="%GitVersion_FullSemVer%" -c"%CONFIGURATION%"
 - ps: ls 
 - cmd: ECHO %GitVersion_FullSemVer%
 - cmd: appveyor PushArtifact "Log4net.Appender.InfluxDBSyslog.%GitVersion_FullSemVer%.nupkg"

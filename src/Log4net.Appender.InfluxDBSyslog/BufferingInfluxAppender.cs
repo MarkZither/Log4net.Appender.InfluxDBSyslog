@@ -128,6 +128,7 @@ namespace Log4net.Appender.InfluxDBSyslog
                 InfluxData.Net.Common.Enums.QueryLocation.FormData,
                 HttpClient);
             InfluxData.Net.InfluxDb.InfluxDbClient client = new InfluxData.Net.InfluxDb.InfluxDbClient(config);
+            List<InfluxData.Net.InfluxDb.Models.Point> points = new List<InfluxData.Net.InfluxDb.Models.Point>();
 
             foreach (var loggingEvent in events)
             {
@@ -155,8 +156,15 @@ namespace Log4net.Appender.InfluxDBSyslog
                 tags.Add("host", Environment.MachineName);
                 tags.Add("hostname", Environment.MachineName);
                 tags.Add("severity", severity.Severity);
+
+                points.Add(new InfluxData.Net.InfluxDb.Models.Point()
+                {
+                    Name = "syslog",
+                    Fields = fields,
+                    Tags = tags,
+                    Timestamp = DateTimeOffset.Now.UtcDateTime
+                });
             }
-            List<InfluxData.Net.InfluxDb.Models.Point> points = new List<InfluxData.Net.InfluxDb.Models.Point>();
             try
             {
                 var apiResp = Task.Run(() => client.Client.WriteAsync(points, "_internal")).GetAwaiter().GetResult();

@@ -9,7 +9,7 @@
     <Copyright>Copyright © 2019 Mark Burton</Copyright>
     <PackageProjectUrl>https://github.com/MarkZither/Log4net.Appender.InfluxDBSyslog</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
-    <Version>0.1.0-alpha11</Version>
+    <Version>0.5.0-alpha0005</Version>
     <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
     <PackageTags>Log4net InfluxDB syslog</PackageTags>
   </PropertyGroup>

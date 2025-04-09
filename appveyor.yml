@@ -8,7 +8,7 @@ environment:
   PROJECTTOKEN:
     secure: 7AolUkwXviuDD/C9rN7tEQmo5FhiGR2mo/j0Xi8pSeAJO9xCv1cR/CQvCQ7mZbnB
   NUGETAPIKEY:
-    secure: QCIByOE43mlTIP0wq3JN8cYAuOw0wkt6PdkM1DxqSOHl2KgqXCfZ6WkhaAOUOTIU
+    secure: y9+mNVdGFX++HPgt9M7wBfCpU8P9DQjpKF/RSOzQpUwiEthIuryp9L1EYWwjAmNy
 nuget:
   project_feed: true
   disable_publish_on_pr: true

@@ -2,6 +2,7 @@
 
 using log4net.Appender;
 using log4net.Core;
+using log4net.Util;
 using log4net.Util.TypeConverters;
 
 using System;
@@ -56,6 +57,16 @@ namespace Log4net.Appender.InfluxDBSyslog
         /// which the logging event will be sent.
         /// </summary>
         private int _remotePort;
+
+        /// <summary>
+        /// The fully qualified type of the AdoNetAppender class.
+        /// </summary>
+        /// <remarks>
+        /// Used by the internal logger to record the Type of the
+        /// log message.
+        /// </remarks>
+        private static readonly Type _declaringType = typeof(InfluxAppender);
+
         public Facility Facility { get; set; }
         public AppName AppName { get; set; }
         public ProcId ProcId { get; set; }
@@ -65,19 +76,31 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         public InfluxAppender()
         {
-            ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
-            ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
-            ConverterRegistry.AddConverter(typeof(ProcId), new ConvertStringToProcId());
+            AddConvertors();
             //https://github.com/dotnet/extensions/issues/1345
             HttpClient = new HttpClient();
         }
+
+        private static void AddConvertors()
+        {
+            ConverterRegistry.AddConverter(typeof(AppName), new ConvertStringToAppName());
+            ConverterRegistry.AddConverter(typeof(Facility), new ConvertStringToFacility());
+            ConverterRegistry.AddConverter(typeof(ProcId), new ConvertStringToProcId());
+        }
+
         public InfluxAppender(HttpClient httpClient)
         {
+            AddConvertors();
             HttpClient = httpClient;
         }
 
         protected override async void Append(LoggingEvent loggingEvent)
         {
+            if(AppName is null || Facility is null)
+            {
+                LogLog.Warn(_declaringType, $"{nameof(AppName)} and {nameof(Facility)} must be set.");
+                return;
+            }
             SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
 
             InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
@@ -98,7 +121,16 @@ namespace Log4net.Appender.InfluxDBSyslog
 
             var fields = new Dictionary<string, object>();
             fields.Add("facility_code", 16);
-            string msg = base.RenderLoggingEvent(loggingEvent);
+            string msg = string.Empty;
+            if (Layout is null)
+            {
+                msg = loggingEvent.RenderedMessage;
+            }
+            else
+            {
+                msg = base.RenderLoggingEvent(loggingEvent);
+            }
+            
             fields.Add("message", msg);
             fields.Add("procid", procId);
             fields.Add("severity_code", severity.SeverityCode);

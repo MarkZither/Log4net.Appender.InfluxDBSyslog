@@ -43,7 +43,17 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
 
         private InfluxAppender CreateInfluxAppender()
         {
-            return new InfluxAppender();
+            var layout = new PatternLayout("%.255message%exception");
+            layout.ActivateOptions();
+
+            var appender = new InfluxAppender()
+            {
+                Name = "InfluxAppender",
+                Host = "localhost",
+                Layout = layout
+            };
+            appender.ActivateOptions();
+            return appender;
         }
 
         [Fact]
@@ -96,6 +106,7 @@ namespace Log4net.Appender.InfluxDBSyslog.Tests
             mock.Object.RemotePort = 8086;
             mock.Object.Facility = new Facility("MyTestFacility");
             mock.Object.AppName = new AppName("MyTestApp");
+            mock.Object.ActivateOptions();
 
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
 

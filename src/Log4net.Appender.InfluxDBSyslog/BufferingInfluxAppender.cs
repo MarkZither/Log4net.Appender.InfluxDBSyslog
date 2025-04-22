@@ -1,7 +1,10 @@
 ﻿using InfluxData.Net.InfluxDb.Infrastructure;
+
 using log4net.Appender;
 using log4net.Core;
+using log4net.Util;
 using log4net.Util.TypeConverters;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -54,6 +57,16 @@ namespace Log4net.Appender.InfluxDBSyslog
         /// which the logging event will be sent.
         /// </summary>
         private int _remotePort;
+
+        /// <summary>
+        /// The fully qualified type of the AdoNetAppender class.
+        /// </summary>
+        /// <remarks>
+        /// Used by the internal logger to record the Type of the
+        /// log message.
+        /// </remarks>
+        private static readonly Type _declaringType = typeof(InfluxAppender);
+
         public Facility Facility { get; set; }
         public AppName AppName { get; set; }
         public ProcId ProcId { get; set; }
@@ -118,7 +131,11 @@ namespace Log4net.Appender.InfluxDBSyslog
 
         protected override void SendBuffer(LoggingEvent[] events)
         {
-           
+            if (AppName is null || Facility is null)
+            {
+                LogLog.Warn(_declaringType, $"{nameof(AppName)} and {nameof(Facility)} must be set.");
+                return;
+            }
 
             InfluxDbClientConfiguration config = new InfluxDbClientConfiguration(
                 new UriBuilder(Scheme, Host, RemotePort).Uri,
@@ -141,9 +158,19 @@ namespace Log4net.Appender.InfluxDBSyslog
 
                 SyslogSeverity severity = Log4netSyslogSeverityConvertor.GetSyslogSeverity(loggingEvent.Level);
 
+                string msg = string.Empty;
+                if (Layout is null)
+                {
+                    msg = loggingEvent.RenderedMessage;
+                }
+                else
+                {
+                    msg = base.RenderLoggingEvent(loggingEvent);
+                }
+
                 var fields = new Dictionary<string, object>();
                 fields.Add("facility_code", 16);
-                fields.Add("message", loggingEvent.MessageObject);
+                fields.Add("message", msg);
                 fields.Add("procid", procId);
                 fields.Add("severity_code", severity.SeverityCode);
                 fields.Add("timestamp", UnixTimestampFromDateTime(loggingEvent.TimeStamp));

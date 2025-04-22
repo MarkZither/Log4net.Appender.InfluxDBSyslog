@@ -12,6 +12,8 @@
     <Version>0.5.0-alpha0005</Version>
     <Configurations>Debug;Release;DebugWithPackageGeneration</Configurations>
     <PackageTags>Log4net InfluxDB syslog</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'DebugWithPackageGeneration' ">
@@ -20,8 +22,8 @@
   
   <ItemGroup>
     <PackageReference Include="InfluxData.Net" Version="8.0.1" />
-    <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.51.0.59060">
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

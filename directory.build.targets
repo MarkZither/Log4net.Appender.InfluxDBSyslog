@@ -3,7 +3,7 @@
     <PackageReference Update="InfluxData.Net" Version="8.0.1" />
   </ItemGroup>
   <PropertyGroup>
-    <BenchmarkDotNet>0.13.1</BenchmarkDotNet>
+    <BenchmarkDotNet>0.14.0</BenchmarkDotNet>
     <MicrosoftEntityFrameworkCorePackageVersion>6.0.0</MicrosoftEntityFrameworkCorePackageVersion>
     <MicrosoftExtensionsPackageVersion>6.0.0</MicrosoftExtensionsPackageVersion>
   </PropertyGroup>
